@@ -10,7 +10,8 @@ terraform validate
 We will pass our variables at the command line
 ```
 terraform plan -var=billing_code="ACCT8675309" \
-               -var=project="web-app" -var=aws_access_key="YOUR_ACCESS_KEY" \ -var=aws_secret_key="YOUR_SECRET_KEY" -out m4.tfplan
+               -var=project="web-app" -var=aws_access_key="YOUR_ACCESS_KEY" \
+               -var=aws_secret_key="YOUR_SECRET_KEY" -out m4.tfplan
 ```
 
 # And we can store our sensitive data in environment variables like so
