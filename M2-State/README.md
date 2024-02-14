@@ -23,28 +23,26 @@ $env:TF_VAR_aws_secret_key="YOUR_SECRET_KEY"
 terraform plan -out m5.tfplan
 terraform apply m5.tfplan
 ```
+## Remote State
+We need to move local state to remote state
 
-## Working with Workspace
-Basic command for workspace
 ```
-terraform workspace list
-terraform workspace show
-terraform workspace new [workspace-name]
-terraform workspace select [workspace-name]
-```
-
-Variable for workspace
-```
-locals{
-    instance_name = "${terraform.workspace}-instance"
+terraform {
+    backend "s3"{
+        bucket = "terraform-remote-state"
+        key = "state/terraform.tfstate"
+        region = "ap-southeast-1"
+    }
 }
 ```
 
+### Terraform command
+You can sync terraform state with this command
 ```
-terraform apply -var-file=dev.tfvars
+terraform state pull
 ```
 
-delete workspace
+You can push local state to remote state with this command
 ```
-terraform workspace delete [workspace-name]
+terraform state push
 ```
