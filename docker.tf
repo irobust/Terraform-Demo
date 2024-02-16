@@ -1,29 +1,21 @@
 terraform {
-    required_providers {
-        docker = {
-        source  = "kreuzwerker/docker"
-        version = "2.23.1"
-        }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
-}
-
-provider "docker" {
-    host = "unix:///var/run/docker.sock"
-}
-
-resource "docker_image" "nginx" {
-  name = "nginx:latest"
-}
-
-resource "docker_container" "nginx" {
-  image = docker_image.nginx.image_id
-  name  = "web-server"
-  ports {
-    internal = 80
-    external = 8000
   }
-  volumes {
-    volume_name = "web-server-volume"
-    container_path = "/var/www/html"
+}
+
+provider "aws" {
+  region = "ap-southeast-2"
+}
+
+resource "aws_instance" "main" {
+  ami                                  = "ami-02eec49345a878486"
+  availability_zone                    = "ap-southeast-2b"
+  instance_type                        = "t2.micro"
+  tags = {
+    Name = "terraform-cloud-webserver"
   }
 }
